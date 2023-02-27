@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["esnext", "DOM"],
+    "removeComments": false,
+    "declaration": true,
+    "strict": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/dist/**", "**/*.spec.ts", "**/*.test.ts"]
+}

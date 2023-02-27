@@ -1,0 +1,18 @@
+{
+  "name": "local-expired-storage",
+  "version": "0.0.1",
+  "description": "local expired storage",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "tsc -p tsconfig.json"
+  },
+  "author": "xiaowenzi",
+  "license": "MIT",
+  "dependencies": {
+    "dayjs": "^1.11.7"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
