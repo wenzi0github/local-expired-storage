@@ -11,6 +11,10 @@
     "test:watch": "jest --watch",
     "build": "tsc -p tsconfig.json"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "author": "xiaowenzi",
   "license": "MIT",
   "dependencies": {
