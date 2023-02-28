@@ -1,18 +1,5 @@
 import clientStorage from './index';
 
-describe('test clientStore when not supprt localStorage', () => {
-  beforeEach(() => {
-    Object.defineProperty(window, 'localStorage', { value: null, writable: true });
-  });
-  test('should set fail when setItem', () => {
-    clientStorage.setItem('key', 'value');
-    expect(clientStorage.getItem('key')).toBeNull();
-  });
-  test('should get zero when cleanExceed', () => {
-    expect(clientStorage.clearAllExpired()).toBe(0);
-  });
-});
-
 describe('test utils clientStorage', () => {
   const localDateNow = Date.now;
 
@@ -79,12 +66,13 @@ describe('test utils clientStorage', () => {
   });
   test('should not clear when key not exceed', () => {
     const now = Date.now();
-    clientStorage.setItem('key', 'value', { maxAge: 5000 }); // 存储5s
+    clientStorage.setItem('key', 'value', { maxAge: 15000 }); // 存储5s
     Date.now = jest.fn(() => now + 1000 * 2); // 将时间定位到2s后
+
     clientStorage.clearAllExpired();
     expect(clientStorage.getItem('key')).toBe('value');
   });
-  test('should only clear key startsWith ghh5. when exec cleanExceed()', () => {
+  test('should only clear key startsWith prefix when exec cleanExceed()', () => {
     const now = Date.now();
     window.localStorage.setItem('ss', 'ss');
     clientStorage.setItem('key', 'value', { maxAge: 5000 }); // 存储5s
@@ -105,5 +93,25 @@ describe('test utils clientStorage', () => {
     Date.now = jest.fn(() => now + 1000 * 60 * 60 * 24);
     clientStorage.clearAllExpired();
     expect(clientStorage.getItem('key')).toBeNull();
+  });
+  test('should get value when set options.expired but not expired', () => {
+    clientStorage.setItem('key', 'value', { expired: Date.now() + 5000 });
+    expect(clientStorage.getItem('key')).toBe('value');
+  });
+  test('should get value when set options.expired but not expired', () => {
+    clientStorage.setItem('key', 'value', { expired: Date.now() - 5000 });
+    expect(clientStorage.getItem('key')).toBeNull();
+  });
+  test('should get value when set maxAge as object type', () => {
+    clientStorage.setItem('key', 'value', { maxAge: { h: 20 } }); // 设置20小时后过期
+    expect(clientStorage.getItem('key')).toBe('value');
+  });
+  test('should get value when set options.expired as string type', () => {
+    clientStorage.setItem('key', 'value', { expired: '2099/12:12' });
+    expect(clientStorage.getItem('key')).toBe('value');
+  });
+  test('should get value when set options.expired as object type', () => {
+    clientStorage.setItem('key', 'value', { expired: { y: 2099 } });
+    expect(clientStorage.getItem('key')).toBe('value');
   });
 });

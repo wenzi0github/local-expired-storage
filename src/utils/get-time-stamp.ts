@@ -1,11 +1,6 @@
-import dayjs from "dayjs";
-
-const getTimeStamp = (param: number | string | any) => {
-  if (typeof param === "number") {
+const getTimeStamp = (param: number | any) => {
+  if (typeof param === 'number') {
     return param;
-  }
-  if (typeof param === "string") {
-    return dayjs(param).valueOf();
   }
   const config: any = {
     d: 1000 * 60 * 60 * 24,
