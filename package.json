@@ -1,8 +1,11 @@
 {
-  "name": "local-expired-storage",
+  "name": "@xiaowenzi/local-expired-storage",
   "version": "0.0.1",
   "description": "local expired storage",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
