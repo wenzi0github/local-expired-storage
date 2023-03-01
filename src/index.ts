@@ -35,6 +35,8 @@ interface SetItemOptions {
   expired?: number | string | TimeObj; // 过期的准确时间点，优先级比maxAge高
 }
 
+const format = 'YYYY/MM/DD HH:mm:ss';
+
 class LocalExpiredStorage {
   private prefix = 'local-expired-'; // 用于跟没有过期时间的key进行区分
 
@@ -44,6 +46,12 @@ class LocalExpiredStorage {
     }
   }
 
+  /**
+   * 存储key，并设置过期时间
+   * @param key
+   * @param value
+   * @param options 过期时间设置
+   */
   setItem(key: string, value: any, options?: SetItemOptions) {
     const now = Date.now();
     let expired = now + 1000 * 60 * 60 * 3; // 默认过期时间为3个小时
@@ -58,11 +66,15 @@ class LocalExpiredStorage {
       `${this.prefix}${key}`,
       JSON.stringify({
         value,
-        start: dayjs().format('YYYY/MM/DD HH:mm:ss'),
-        expired: dayjs(expired).format('YYYY/MM/DD HH:mm:ss'),
+        start: dayjs().format(format),
+        expired: dayjs(expired).format(format),
       }),
     );
   }
+
+  /**
+   * 获取key的数据，若数据存在且未过期，则正常返回，否则返回null
+   */
   getItem(key: string): any {
     const result = localStorage.getItem(`${this.prefix}${key}`);
     if (!result) {
@@ -78,9 +90,18 @@ class LocalExpiredStorage {
     this.removeItem(key);
     return null;
   }
+
+  /**
+   * 删除数据
+   */
   removeItem(key: string) {
     localStorage.removeItem(`${this.prefix}${key}`);
   }
+
+  /**
+   * 删除所有已过期的key
+   * @returns {number} 返回删除的个数
+   */
   clearAllExpired() {
     let num = 0;
 
@@ -89,7 +110,7 @@ class LocalExpiredStorage {
       if (value) {
         // 若value有值，则判断是否过期
         const { expired } = JSON.parse(value);
-        if (Date.now() > dayjs(expired).valueOf()) {
+        if (now > dayjs(expired).valueOf()) {
           // 已过期
           localStorage.removeItem(key);
           return 1;
