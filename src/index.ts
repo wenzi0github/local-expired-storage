@@ -44,6 +44,9 @@ class LocalExpiredStorage {
     if (prefix) {
       this.prefix = prefix;
     }
+    if (typeof window?.localStorage !== 'object') {
+      throw new Error('[local-expired-storage]: no localStorage in window');
+    }
   }
 
   /**
