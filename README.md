@@ -1,10 +1,12 @@
 # a new local expired storage based on localStorage
 
+This package supports expired time storage, when time expired, we can get then null data, and clear it.
+
 [中文介绍](./README-zh.md)
 
 blog: [how to implement a local expired storage](https://www.xiabingbao.com/post/fe/local-expired-storage-rqstpj.html)
 
-## get npm package
+## Install
 
 ```shell
 $ npm i @xiaowenzi/local-expired-storage
@@ -16,7 +18,7 @@ or
 $ yarn add @xiaowenzi/local-expired-storage
 ```
 
-## introduce
+## Introduce
 
 We support two methods of expiration time:
 
@@ -73,7 +75,10 @@ localExpiredStorage.setItem('key', 'value', { expired: { y: 2024, M: 12, d: 12, 
 
 ## get data
 
-获取数据时就简单很多，若有数据且在有效内，则正常返回；否则返回 null。
+Get data from `getItem`.
+
+1. get correct data when localStorage has key, and not expired;
+2. get null when no key or key has been expired;
 
 ```javascript
 localExpiredStorage.getItem('key');
@@ -81,7 +86,7 @@ localExpiredStorage.getItem('key');
 
 ## delete data
 
-删除该 key 的数据。
+Delete then key.
 
 ```javascript
 localExpiredStorage.removeItem('key');
@@ -89,7 +94,9 @@ localExpiredStorage.removeItem('key');
 
 ## clear all expired keys
 
-localStorage 中过期的数据，若不主动访问，是不会自动清除的。这里我们提供一个方法，可以清除所有过期的 key。
+Clear all expired keys.
+
+`localStorage` cant clear expired keys automatically, then we support a function to clear.
 
 ```javascript
 localExpiredStorage.clearAllExpired();

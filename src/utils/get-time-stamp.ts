@@ -1,3 +1,8 @@
+/**
+ * get time number from param
+ * 1. if param is number type, get it directly;
+ * 2. if param is object type, change it to time stamp;
+ */
 const getTimeStamp = (param: number | any) => {
   if (typeof param === 'number') {
     return param;
